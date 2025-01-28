@@ -1,4 +1,27 @@
 package ms.books.payments.data;
 
-public class UserRepository {
+import lombok.RequiredArgsConstructor;
+import ms.books.payments.data.model.Users;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+@RequiredArgsConstructor
+public class UserRepository  {
+
+    private final UserJpaRepository repositoryUser;
+
+    public List<Users> getUsers() { return  repositoryUser.findAll();}
+
+    public Users getUserById(int id) { return repositoryUser.findById(id).orElse(null);}
+
+    public Users save(Users user) {
+        return repositoryUser.save(user);
+    }
+
+    public void delete(Users user) {
+        repositoryUser.delete(user);
+    }
+
 }
