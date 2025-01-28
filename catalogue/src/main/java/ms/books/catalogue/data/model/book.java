@@ -1,1 +1,0 @@
-package ms.books.catalogue.data.model;

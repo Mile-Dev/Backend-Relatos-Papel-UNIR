@@ -1,11 +1,16 @@
 spring:
   application:
     name: catalogue
-    datasource:
+  datasource:
     url: jdbc:mysql://ingenius-micro-db.cltqou3p506p.us-east-1.rds.amazonaws.com:3360/ms-catalogue
     username: dev_ext
-    password:
+    password: 3fRXg5lG3kUJt9RO
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
 
 server:
     port: 8082
