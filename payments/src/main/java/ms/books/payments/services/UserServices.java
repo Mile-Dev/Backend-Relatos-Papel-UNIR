@@ -1,29 +1,25 @@
 package ms.books.payments.services;
 
+import lombok.RequiredArgsConstructor;
 import ms.books.payments.controller.model.CreateUserRequest;
 import ms.books.payments.data.UserRepository;
 import ms.books.payments.data.model.Users;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServices implements IUserServices {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserServices(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public Users getUser(Integer id) {
-        return null;
+        return userRepository.getUserById(id);
     }
 
     @Override
     public Users getUserEmail(String email) {
-        return null;
+        return userRepository.findByEmail(email);
     }
 
     @Override

@@ -24,4 +24,5 @@ public class UserRepository  {
         repositoryUser.delete(user);
     }
 
+    public Users findByEmail(String email) { return repositoryUser.findByEmail(email);}
 }
