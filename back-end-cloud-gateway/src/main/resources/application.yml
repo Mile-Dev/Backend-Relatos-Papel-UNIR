@@ -1,0 +1,67 @@
+server:
+  port: 8087
+
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: ${HOSTNAME:localhost}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://localhost:8088/eureka}
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: ms-books
+          uri: lb://ms-books
+          predicates:
+            - Path=/api/books/**
+          filters:
+            - StripPrefix=1
+
+        - id: ms-books-swagger
+          uri: lb://ms-books
+          predicates:
+            - Path=/api/ms-books/v3/api-docs, /api/ms-books/v3/api-docs/**
+          filters:
+            - StripPrefix=2
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: ${ALLOWED_ORIGINS:*}
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+
+management:
+  endpoint:
+    gateway:
+      enabled: ${ROUTE_TABLES_ENABLED:true}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /api/ms-books/v3/api-docs/swagger-config
+    urls:
+      - name: API Gateway - ms-books
+        url: /api/ms-books/v3/api-docs
