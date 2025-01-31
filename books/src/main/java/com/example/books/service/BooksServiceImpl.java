@@ -122,4 +122,15 @@ public class BooksServiceImpl implements BooksService {
 
         return entityManager.createQuery(query).getResultList();
     }
+    @Override
+    public Book inactivateBook(Integer bookId) {
+        Optional<Book> bookOpt = repository.findById(Long.valueOf(bookId));
+
+        if (bookOpt.isPresent()) {
+            Book book = bookOpt.get();
+            book.setStatus(0);
+            return repository.save(book);
+        }
+        return null;
+    }
 }

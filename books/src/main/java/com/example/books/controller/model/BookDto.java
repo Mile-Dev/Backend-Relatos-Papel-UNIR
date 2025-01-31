@@ -22,4 +22,5 @@ public class BookDto {
     private Integer stock;
     private Integer rating;
     private Integer status;
+
 }
