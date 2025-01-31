@@ -5,7 +5,7 @@ import lombok.*;
 import ms.books.payments.data.utils.Consts;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor

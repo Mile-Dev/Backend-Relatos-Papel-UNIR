@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "Payments")
+@Table(name = "payments")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -32,7 +32,7 @@ public class Payments {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = Consts.STATUS, nullable = false)
+    @Column(name = Consts.PAYMENTMETHOD, nullable = false)
     private PaymentMethod paymentmethod;
 
     @Enumerated(EnumType.STRING)

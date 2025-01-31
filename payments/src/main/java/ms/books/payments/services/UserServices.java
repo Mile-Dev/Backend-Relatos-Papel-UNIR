@@ -6,6 +6,8 @@ import ms.books.payments.data.UserRepository;
 import ms.books.payments.data.model.Users;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServices implements IUserServices {
@@ -24,6 +26,15 @@ public class UserServices implements IUserServices {
 
     @Override
     public Users createUser(CreateUserRequest request) {
-        return null;
+            Users user = new Users();
+            user.setEmail(request.getEmail());
+            user.setName(request.getName());
+            user.setPhone(request.getPhone());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<Users> getAllUsers() {
+        return userRepository.getUsers();
     }
 }
