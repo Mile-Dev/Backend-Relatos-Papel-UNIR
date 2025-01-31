@@ -34,7 +34,7 @@ public class BooksController {
             @RequestParam(required = false) Integer rating) {
 
         log.info("Obteniendo lista de libros con filtros");
-        List<Book> books = booksService.getBooks(title, author, genre, publisher, publicationYear, isbn, null, null, null);
+        List<Book> books = booksService.getBooks(title, author, genre, publisher, publicationYear, isbn, null, null, rating);
         return ResponseEntity.ok(books);
     }
 
@@ -92,5 +92,12 @@ public class BooksController {
         List<Book> books = booksService.getBooksFilters(filters);
         return ResponseEntity.ok(books);
     }
+    @PutMapping("/inactive/{bookId}")
+    public ResponseEntity<Book> inactivateBook(@PathVariable Integer bookId) {
+        log.info("Inactivando libro con ID: {}", bookId);
 
+        Book updatedBook = booksService.inactivateBook(bookId);
+
+        return updatedBook != null ? ResponseEntity.ok(updatedBook) : ResponseEntity.notFound().build();
+    }
 }

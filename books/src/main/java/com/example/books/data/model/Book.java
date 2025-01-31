@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Books")
+@Table(name = "books_dev")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,47 +18,50 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookID;
+    private Integer id;
 
-    @Column(name = "Title", nullable = false, length = 255)
+    @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @Column(name = "Author", nullable = false, length = 255)
+    @Column(name = "author", nullable = false, length = 255)
     private String author;
 
-    @Column(name = "Genre", length = 100)
+    @Column(name = "genre", length = 100)
     private String genre;
 
-    @Column(name = "Publisher", length = 255)
+    @Column(name = "publisher", length = 255)
     private String publisher;
 
-    @Column(name = "PublicationYear")
+    @Column(name = "publication_year")
     private String publicationYear;
 
     @Column(name = "ISBN", unique = true, length = 20)
     private String isbn;
 
-    @Column(name = "Price", nullable = false, precision = 10, scale = 2)
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "Stock", nullable = false)
+    @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "Rating", nullable = false)
+    @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    @Column(name = "Status", nullable = false)
-    private Integer status;
+    @Column(name = "status", nullable = false)
+    private Integer status = 1; // 🔹 Asigna 1 por defecto si no se proporciona
 
-    @Column(name = "CreatedAt", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "UpdatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = 1;
+        }
     }
 
     @PreUpdate

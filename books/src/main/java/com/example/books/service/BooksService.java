@@ -23,4 +23,5 @@ public interface BooksService {
 
     List<Book> getBooksFilters(Map<String, Object> filters);
 
+    Book inactivateBook(Integer bookId);
 }
