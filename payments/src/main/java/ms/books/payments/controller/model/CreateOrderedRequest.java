@@ -13,6 +13,6 @@ public class CreateOrderedRequest {
     @NotNull(message = "totalAmount cannot be null")
     private BigDecimal totalAmount;
 
-    PRI
+    
 
 }
