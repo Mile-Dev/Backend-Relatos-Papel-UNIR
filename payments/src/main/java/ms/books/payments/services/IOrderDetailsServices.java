@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IOrderDetailsServices {
 
-    OrderDetails getOrderDetails(Integer id);
+    OrderDetails getOrderDetails(int orderId, int detailId);
 
-    List<OrderDetails> getOrderDetailsByOrdered(Integer email);
+    List<OrderDetails> getOrderDetailsByOrdered(int orderId);
 
-    OrderDetails addOrderDetails(CreateOrderDetailsRequest request);
+    OrderDetails addOrderDetails(CreateOrderDetailsRequest request, int orderId);
 }

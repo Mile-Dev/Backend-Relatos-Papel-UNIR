@@ -20,13 +20,13 @@ public class OrderServices implements IOrderServices {
     private final UserRepository userRepository;
 
     @Override
-    public Orders getOrder(Integer id) {
-        return null;
+    public Orders getOrder(int id) {
+        return orderRepository.getOrderedById(id);
     }
 
     @Override
     public List<Orders> getOrdered() {
-        return List.of();
+        return orderRepository.getOrders();
     }
 
     @Override
@@ -37,7 +37,6 @@ public class OrderServices implements IOrderServices {
             {
              throw new UserNotFoundException("User with ID " + request.getUserId() + " not found");
             }
-
         Orders order = Orders.builder()
                 .user(user)
                 .totalAmount(request.getTotalAmount())

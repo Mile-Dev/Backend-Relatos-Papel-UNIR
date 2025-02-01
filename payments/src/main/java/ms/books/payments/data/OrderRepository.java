@@ -17,5 +17,5 @@ public class OrderRepository {
 
     public Orders save(Orders orders) {return repositoryOrder.save(orders);}
 
-
+    public Orders getOrderedById(int id) { return repositoryOrder.findById(id).orElse(null);}
 }

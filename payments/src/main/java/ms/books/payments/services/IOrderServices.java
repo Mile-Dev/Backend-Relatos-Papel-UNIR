@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IOrderServices {
 
-    Orders getOrder(Integer id);
+    Orders getOrder(int id);
 
     List<Orders> getOrdered();
 

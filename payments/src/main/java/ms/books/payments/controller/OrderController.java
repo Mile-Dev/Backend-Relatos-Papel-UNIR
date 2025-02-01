@@ -18,12 +18,11 @@ public class OrderController {
 
     private final OrderServices servicesOrder;
 
-    @GetMapping("/order/{orderId}")
-    public ResponseEntity<Orders> getOrdered(@PathVariable Integer orderId) {
+    @GetMapping("/order/{id}")
+    public ResponseEntity<Orders> getOrdered(@PathVariable int id) {
 
-        log.info("Request received for user {}", orderId);
-        Orders order = servicesOrder.getOrder(orderId);
-
+        log.info("Request received for user {}", id);
+        Orders order = servicesOrder.getOrder(id);
         if (order != null) {
             return ResponseEntity.ok(order);
         } else {
@@ -35,7 +34,6 @@ public class OrderController {
     public ResponseEntity<List<Orders>> getOrders() {
 
         List<Orders> orders = servicesOrder.getOrdered();
-
         if (orders != null) {
             return ResponseEntity.ok(orders);
         } else {

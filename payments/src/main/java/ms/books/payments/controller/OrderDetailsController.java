@@ -22,11 +22,11 @@ public class OrderDetailsController {
 
     private final OrderDetailsServices servicesOrderDetails;
 
-    @GetMapping("/order detail/{id}")
-    public ResponseEntity<OrderDetails> getOrderedDetails(@PathVariable Integer id) {
+    @GetMapping("/order/{orderId}/details/{detailId}")
+    public ResponseEntity<OrderDetails> getOrderedDetailsById(@PathVariable int orderId, @PathVariable int detailId) {
 
-        log.info("Request received for user {}", id);
-        OrderDetails orderDetails = servicesOrderDetails.getOrderDetails(id);
+        log.info("Request received for user {}", orderId);
+        OrderDetails orderDetails = servicesOrderDetails.getOrderDetails(orderId,detailId);
 
         if (orderDetails != null) {
             return ResponseEntity.ok(orderDetails);
@@ -35,8 +35,8 @@ public class OrderDetailsController {
         }
     }
 
-    @GetMapping("/order detail/order/{orderId}")
-    public ResponseEntity<List<OrderDetails>> getOrderedDetailsByOrder(@PathVariable Integer orderId) {
+    @GetMapping("/order/{orderId}/details")
+    public ResponseEntity<List<OrderDetails>> getOrderedDetailsByOrder(@PathVariable int orderId) {
 
         List<OrderDetails> orderDetails = servicesOrderDetails.getOrderDetailsByOrdered(orderId);
 
@@ -47,10 +47,10 @@ public class OrderDetailsController {
         }
     }
 
-    @PostMapping("/order detail")
-    public ResponseEntity<OrderDetails> addUsers(@RequestBody CreateOrderDetailsRequest request) {
+    @PostMapping("/orders/{orderId}/details")
+    public ResponseEntity<OrderDetails> addOrderDetails(@RequestBody CreateOrderDetailsRequest request, @PathVariable int orderId) {
 
-        OrderDetails addOrderDetails = servicesOrderDetails.addOrderDetails(request);
+        OrderDetails addOrderDetails = servicesOrderDetails.addOrderDetails(request, orderId);
 
         if (addOrderDetails != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(addOrderDetails);
