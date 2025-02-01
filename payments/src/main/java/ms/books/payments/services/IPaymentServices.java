@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IPaymentServices {
 
-    Payments getPayment(Integer id);
+    List<Payments> getPayment(Integer orderId);
 
-    Payments getPaymentsById(Integer userId);
+    Payments getPaymentsById(Integer id);
 
     Payments createPayments(CreatePaymentsRequest request);
 

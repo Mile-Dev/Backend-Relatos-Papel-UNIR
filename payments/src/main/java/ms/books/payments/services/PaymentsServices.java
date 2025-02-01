@@ -1,12 +1,13 @@
 package ms.books.payments.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import ms.books.payments.controller.model.CreateOrderedRequest;
 import ms.books.payments.controller.model.CreatePaymentsRequest;
-import ms.books.payments.data.OrderRepository;
 import ms.books.payments.data.PaymentRepository;
+import ms.books.payments.data.OrderRepository;
 import ms.books.payments.data.model.Orders;
 import ms.books.payments.data.model.Payments;
+import ms.books.payments.exceptions.OrderNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,27 +17,39 @@ import java.util.List;
 public class PaymentsServices implements IPaymentServices {
 
     private final PaymentRepository paymentRepository;
+    private final OrderRepository orderRepository;
 
     @Override
-    public Payments getPayment(Integer id) {
+    public List<Payments> getPayment(Integer id) {
 
-        return paymentRepository.findById(id)
-                .orElseThrow(()  -> new PaymentNotFoundException("Payment with ID " + id + " not found"));
-    }
-
-    @Override
-    public List<Payments> getPaymentsById(Integer userId) {
-
-        return paymentRepository.findByUserId(userId);
+        return paymentRepository.getPayments();
 
     }
 
+    //Revisar metodo: Devolver payments por id
     @Override
+    public Payments getPaymentsById(Integer id) {
+
+        return paymentRepository.getPaymentById(id);
+
+    }
+
+
+    @Override
+    @Transactional
     public Payments createPayments(CreatePaymentsRequest request) {
+        Orders order = orderRepository.getOrderedById(request.getOrderId());
+        if (order == null)
+        {
+            throw new OrderNotFoundException("Order with ID "+ request.getOrderId() + "not found" );
+        }
+
         Payments payment = Payments.builder()
+                .orderId(order)
                 .amount(request.getAmount())
-                .userId(request.getUserId())
+                .paymentMethodUsers(request.getPaymentMethodUsers())
                 .build();
+
         return paymentRepository.save(payment);
 
     }
@@ -44,7 +57,7 @@ public class PaymentsServices implements IPaymentServices {
     @Override
     public List<Payments> getAllPayments() {
 
-        return paymentRepository.findAll();
+        return paymentRepository.getPayments();
 
     }
 }

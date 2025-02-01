@@ -3,41 +3,30 @@ package ms.books.payments.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ms.books.payments.controller.model.CreatePaymentsRequest;
-import ms.books.payments.controller.model.CreateUserRequest;
+
 import ms.books.payments.data.model.Payments;
-import ms.books.payments.data.model.Users;
+import ms.books.payments.data.model.Orders;
 import ms.books.payments.services.PaymentsServices;
-import ms.books.payments.services.UserServices;
+import ms.books.payments.services.OrderServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@Tag(name = "Payments Controller", descripcion = "Microservicio encargado de exponer operaciones CRUD sobre pagos alojados en una base de datos en memoria.")
 public class PaymentController {
 
     private final PaymentsServices servicesPayments;
+    private final OrderServices servicesOrders;
 
     @GetMapping("/payment/{id}")
-    @Operation(
-            operationId = "Obtener pagos",
-            descripcion = "Operacion de lectura",
-            summary = "Se devuelve una lista de todos los pagos almacenadps en la base de datos."
-    )
-    @ApiResponse(
-            responseCode = "200"
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payments.class)))
-
-    )
-    public ResponseEntity<List<Payments>> getPaymentId(@PathVariable Integer id) {
+    public ResponseEntity<Payments> getPaymentId(@PathVariable Integer id) {
 
         log.info("Request received for user {}", id);
-        Payments payments = servicesPayments.getPayment(id);
+        Payments payments = (Payments) servicesPayments.getPayment(id);
 
         if (payments != null) {
             return ResponseEntity.ok(payments);
@@ -49,13 +38,27 @@ public class PaymentController {
     @GetMapping("/payments/order/{id}")
     public ResponseEntity<Payments> getPaymentByOrderId(@PathVariable Integer id) {
 
-        Payments payment = servicesPayments.getPaymentsById(id);
+        Orders order = servicesOrders.getOrder(id);
+        Payments payment = servicesPayments.getPaymentsById(order.getId());
 
         if (payment != null) {
             return ResponseEntity.ok(payment);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/payments")
+    public ResponseEntity<List<Payments>> getAllPayments(){
+
+        List<Payments> payments = servicesPayments.getAllPayments();
+        if(payments != null){
+            return ResponseEntity.ok(payments);
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PostMapping("/payments")
