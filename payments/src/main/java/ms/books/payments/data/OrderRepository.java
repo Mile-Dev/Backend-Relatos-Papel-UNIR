@@ -14,4 +14,8 @@ public class OrderRepository {
     private final OrderJpaRepository repositoryOrder;
 
     public List<Orders> getOrders() { return  repositoryOrder.findAll();}
+
+    public Orders save(Orders orders) {return repositoryOrder.save(orders);}
+
+
 }

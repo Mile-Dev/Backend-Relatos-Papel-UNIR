@@ -5,6 +5,7 @@ import lombok.*;
 import ms.books.payments.data.utils.Consts;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -26,7 +27,7 @@ public class OrderDetails {
     private Orders order;
 
     @Column(name =  Consts.BOOKID, nullable = false)
-    private Integer bookid;
+    private Integer bookId;
 
     @Column(name = Consts.QUANTITY, nullable = false)
     private Integer quantity;
@@ -35,5 +36,5 @@ public class OrderDetails {
     private BigDecimal price;
 
     @Column(name = Consts.CREATEDAT, updatable = false, nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }

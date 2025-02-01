@@ -8,6 +8,7 @@ import ms.books.payments.data.utils.PaymentMethod;
 import ms.books.payments.data.utils.PaymentStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -40,5 +41,5 @@ public class Payments {
     private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @Column(name = Consts.CREATEDAT, updatable = false, nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }

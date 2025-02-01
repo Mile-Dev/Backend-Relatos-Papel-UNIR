@@ -6,6 +6,7 @@ import ms.books.payments.data.utils.Consts;
 import ms.books.payments.data.utils.OrderStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -34,5 +35,5 @@ public class Orders {
     private OrderStatus status = OrderStatus.PENDING;
 
     @Column(name = Consts.CREATEDAT, updatable = false, nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }
