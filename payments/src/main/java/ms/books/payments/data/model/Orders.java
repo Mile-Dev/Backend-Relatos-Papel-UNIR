@@ -27,10 +27,7 @@ public class Orders {
     private Users user;
 
     @Column(name =  Consts.TOTAL, nullable = false, precision = 10, scale = 2)
-        private BigDecimal totalamount;
-
-    @Column(name = Consts.ORDERDATE, nullable = false)
-    private Date orderDate;
+    private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = Consts.STATUS, nullable = false)
