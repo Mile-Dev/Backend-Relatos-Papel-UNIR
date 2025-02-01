@@ -19,21 +19,32 @@ public class PaymentsServices implements IPaymentServices {
 
     @Override
     public Payments getPayment(Integer id) {
-        return null;
+
+        return paymentRepository.findById(id)
+                .orElseThrow(()  -> new PaymentNotFoundException("Payment with ID " + id + " not found"));
     }
 
     @Override
-    public Payments getPaymentsById(Integer userId) {
-        return null;
+    public List<Payments> getPaymentsById(Integer userId) {
+
+        return paymentRepository.findByUserId(userId);
+
     }
 
     @Override
     public Payments createPayments(CreatePaymentsRequest request) {
-        return null;
+        Payments payment = Payments.builder()
+                .amount(request.getAmount())
+                .userId(request.getUserId())
+                .build();
+        return paymentRepository.save(payment);
+
     }
 
     @Override
     public List<Payments> getAllPayments() {
-        return List.of();
+
+        return paymentRepository.findAll();
+
     }
 }

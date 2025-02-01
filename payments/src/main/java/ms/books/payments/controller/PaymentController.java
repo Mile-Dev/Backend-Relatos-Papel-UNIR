@@ -13,16 +13,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "Payments Controller", descripcion = "Microservicio encargado de exponer operaciones CRUD sobre pagos alojados en una base de datos en memoria.")
 public class PaymentController {
 
     private final PaymentsServices servicesPayments;
 
     @GetMapping("/payment/{id}")
-    public ResponseEntity<Payments> getPaymentId(@PathVariable Integer id) {
+    @Operation(
+            operationId = "Obtener pagos",
+            descripcion = "Operacion de lectura",
+            summary = "Se devuelve una lista de todos los pagos almacenadps en la base de datos."
+    )
+    @ApiResponse(
+            responseCode = "200"
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payments.class)))
+
+    )
+    public ResponseEntity<List<Payments>> getPaymentId(@PathVariable Integer id) {
 
         log.info("Request received for user {}", id);
         Payments payments = servicesPayments.getPayment(id);
