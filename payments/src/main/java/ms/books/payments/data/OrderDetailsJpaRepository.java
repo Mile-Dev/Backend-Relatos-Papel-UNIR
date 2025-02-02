@@ -8,8 +8,11 @@ import java.util.List;
 
 public interface OrderDetailsJpaRepository extends JpaRepository<OrderDetails, Integer>, JpaSpecificationExecutor<OrderDetails> {
 
-    public List<OrderDetails> findByOrderId(int orderId);
+    List<OrderDetails> findByOrderId(int orderId);
 
-    public OrderDetails findByOrderIdAndId(int orderId, int detailId);
+    OrderDetails findByOrderIdAndId(int orderId, int detailId);
 
+    OrderDetails findByOrderIdAndBookId(int orderId, int bookId);
+
+    void removeById(int id);
 }

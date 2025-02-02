@@ -12,11 +12,9 @@ public class Consts {
 
     public static final String TOTAL = "totalAmount";
 
-    public static final String ORDERDATE = "orderDate";
-
     public static final String STATUS = "status";
 
-    public static final String CREATEDAT = "createdAt";
+    public static final String CREATE = "createdAt";
     
     public static final String ORDERID = "orderId";
     

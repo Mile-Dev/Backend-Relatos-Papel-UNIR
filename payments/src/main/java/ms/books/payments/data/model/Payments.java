@@ -39,6 +39,6 @@ public class Payments {
     @Column(name = Consts.STATUS, nullable = false)
     private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
-    @Column(name = Consts.CREATEDAT, updatable = false, nullable = false)
+    @Column(name = Consts.CREATE, updatable = false, nullable = false)
     private LocalDateTime createdAt;
 }

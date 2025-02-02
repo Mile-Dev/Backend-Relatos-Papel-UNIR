@@ -12,4 +12,7 @@ public interface IOrderDetailsServices {
     List<OrderDetails> getOrderDetailsByOrdered(int orderId);
 
     OrderDetails addOrderDetails(CreateOrderDetailsRequest request, int orderId);
+
+    boolean removeItem(int id);
+
 }

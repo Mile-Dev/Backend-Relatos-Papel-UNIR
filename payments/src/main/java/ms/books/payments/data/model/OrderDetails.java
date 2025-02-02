@@ -1,12 +1,12 @@
 package ms.books.payments.data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import ms.books.payments.data.utils.Consts;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "orderDetails")
@@ -35,6 +35,8 @@ public class OrderDetails {
     @Column(name = Consts.PRICE, nullable = false)
     private BigDecimal price;
 
-    @Column(name = Consts.CREATEDAT, updatable = false, nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = Consts.CREATE, insertable = false, updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
 }

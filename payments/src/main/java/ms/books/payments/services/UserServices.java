@@ -5,6 +5,7 @@ import ms.books.payments.controller.model.CreateUserRequest;
 import ms.books.payments.data.UserRepository;
 import ms.books.payments.data.model.Users;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class UserServices implements IUserServices {
     }
 
     @Override
+    @Transactional
     public Users createUser(CreateUserRequest request) {
             Users user = new Users();
             user.setEmail(request.getEmail());

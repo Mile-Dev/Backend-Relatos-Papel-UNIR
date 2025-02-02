@@ -2,7 +2,6 @@ package ms.books.payments.data;
 
 import lombok.RequiredArgsConstructor;
 import ms.books.payments.data.model.OrderDetails;
-import ms.books.payments.data.model.Orders;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +24,17 @@ public class OrderDetailsRepository {
         return repositoryOrderDetails.findByOrderIdAndId(orderId, detailId);
     }
 
+    public OrderDetails findByOrderIdAndBookId(int orderId, int bookId  ) {
+        return repositoryOrderDetails.findByOrderIdAndBookId(orderId, bookId);
+    }
+
     public OrderDetails save(OrderDetails ordersDetails) {return repositoryOrderDetails.save(ordersDetails);}
+
+    public void removeItem(int id) {
+        repositoryOrderDetails.removeById(id);
+    }
+
+    public OrderDetails getOrderById(int id ) {
+        return repositoryOrderDetails.findById(id).orElse(null);
+    }
 }
