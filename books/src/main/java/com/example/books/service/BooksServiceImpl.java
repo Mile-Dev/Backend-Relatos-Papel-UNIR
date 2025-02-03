@@ -4,6 +4,7 @@ import com.example.books.controller.model.BookDto;
 import com.example.books.controller.model.CreateBookRequest;
 import com.example.books.data.BookRepository;
 import com.example.books.data.model.Book;
+import com.example.books.exceptions.BooksNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ public class BooksServiceImpl implements BooksService {
     @Override
     public Book getBook(Integer bookId) {
         Optional<Book> book = repository.findById(Long.valueOf(bookId));
+
         return book.orElse(null);
     }
 
