@@ -33,18 +33,18 @@ spring:
             - Path=/api/ms-books/v3/api-docs, /api/ms-books/v3/api-docs/**
           filters:
             - StripPrefix=2
-        - id: ms-payment-swagger
-          uri: lb://ms-payment
-          predicates:
-            - Path=/api/ms-payment/v3/api-docs, /api/ms-payment/v3/api-docs/**
-          filters:
-            - StripPrefix=2
         - id: ms-payment
           uri: lb://ms-payment
           predicates:
             - Path=/api/payment/**
           filters:
             - StripPrefix=1
+        - id: ms-payment-swagger
+          uri: lb://ms-payment
+          predicates:
+            - Path=/api/ms-payment/v3/api-docs, /api/ms-payment/v3/api-docs/**
+          filters:
+            - StripPrefix=2
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
