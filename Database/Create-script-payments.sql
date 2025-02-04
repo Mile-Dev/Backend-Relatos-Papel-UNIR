@@ -25,7 +25,7 @@ CREATE TABLE orderDetails (
     price DECIMAL(10,2) NOT NULL,
 	createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE
-);
+);users
 
 -- Tabla de pagos
 CREATE TABLE payments (
