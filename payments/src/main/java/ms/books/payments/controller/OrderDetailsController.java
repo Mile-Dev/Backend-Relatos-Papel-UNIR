@@ -41,15 +41,23 @@ public class OrderDetailsController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado el item con el identificador indicado.")
     public ResponseEntity<OrderDetails> getOrderedDetailsById(@PathVariable int orderId, @PathVariable int detailId) {
+       try{
+           log.info("Request received for orderDetails {}, {}", orderId, detailId);
+           OrderDetails orderDetails = servicesOrderDetails.getOrderDetails(orderId,detailId);
 
-        log.info("Request received for user {}", orderId);
-        OrderDetails orderDetails = servicesOrderDetails.getOrderDetails(orderId,detailId);
+           if (orderDetails != null) {
+               return ResponseEntity.ok(orderDetails);
+           } else {
+               return ResponseEntity.notFound().build();
+           }
+       } catch(NumberFormatException e){
+           log.error("Formato de orderDetails inválido:", e);
+           return ResponseEntity.badRequest().build();
+       }catch (Exception e) {
+           log.error("Error al agregar el orderDetails: {}", e.getMessage(), e);
+           return ResponseEntity.internalServerError().build();
+       }
 
-        if (orderDetails != null) {
-            return ResponseEntity.ok(orderDetails);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping("/order/{orderId}/details")
@@ -66,14 +74,22 @@ public class OrderDetailsController {
             description = "No se ha encontrado el item con el identificador indicado.")
 
     public ResponseEntity<List<OrderDetails>> getOrderedDetailsByOrder(@PathVariable int orderId) {
-
-        List<OrderDetails> orderDetails = servicesOrderDetails.getOrderDetailsByOrdered(orderId);
-
-        if (orderDetails != null) {
-            return ResponseEntity.ok(orderDetails);
-        } else {
-            return ResponseEntity.notFound().build();
+        try{
+            log.info("Request received for orderDetails {}", orderId);
+            List<OrderDetails> orderDetails = servicesOrderDetails.getOrderDetailsByOrdered(orderId);
+            if (orderDetails != null) {
+                return ResponseEntity.ok(orderDetails);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch(NumberFormatException e){
+            log.error("Formato de orderDetails inválido:", e);
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+            log.error("Error al agregar el orderDetails: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
         }
+
     }
 
     @PostMapping("/orders/{orderId}/details")
@@ -97,13 +113,22 @@ public class OrderDetailsController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado el item  con el identificador indicado.")
     public ResponseEntity<OrderDetails> addOrderDetails(@RequestBody CreateOrderDetailsRequest request, @PathVariable int orderId) {
+        try{
+            log.info("Request received for orderDetails ");
 
-        OrderDetails addOrderDetails = servicesOrderDetails.addOrderDetails(request, orderId);
+            OrderDetails addOrderDetails = servicesOrderDetails.addOrderDetails(request, orderId);
 
         if (addOrderDetails != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(addOrderDetails);
         } else {
             return ResponseEntity.badRequest().build();
+        }
+        }catch(NumberFormatException e){
+            log.error("Formato de orderDetails inválido:", e);
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+            log.error("Error al agregar el orderDetails: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
