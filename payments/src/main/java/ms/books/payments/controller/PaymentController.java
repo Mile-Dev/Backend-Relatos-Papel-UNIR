@@ -53,7 +53,7 @@ public class PaymentController {
     public ResponseEntity<Payments> getPaymentId(@PathVariable Integer id) {
 
         log.info("Request received for payment {}", id);
-        Payments payments = (Payments) servicesPayments.getPayment(id);
+        Payments payments = servicesPayments.getPaymentsById(id);
 
         if (payments != null) {
             return ResponseEntity.ok(payments);
@@ -74,12 +74,12 @@ public class PaymentController {
             responseCode = "404",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado la orden con el identificador indicado.")
-    public ResponseEntity<Payments> getPaymentByOrderId(@PathVariable Integer id) {
+    public ResponseEntity<List<Payments>> getPaymentByOrderId(@PathVariable Integer id) {
 
         log.info("Request received for order {}", id);
 
         Orders order = servicesOrders.getOrder(id);
-        Payments payment = servicesPayments.getPaymentsById(order.getId());
+        List<Payments> payment = servicesPayments.getPayment(order.getId());
 
 
         if (payment != null) {
@@ -121,7 +121,7 @@ public class PaymentController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatePaymentsRequest.class))))
     @ApiResponse(
             responseCode = "201",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payments.class)))
     @ApiResponse(
             responseCode = "400",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),

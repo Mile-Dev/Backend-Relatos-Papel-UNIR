@@ -32,7 +32,7 @@ CREATE TABLE payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     orderId INT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
-    paymentMethodUsers ENUM('Credit Card', 'PayPal', 'Bank Transfer') NOT NULL,
+    paymentMethodUsers ENUM('Credit Card', 'PayPal', 'Transfer') NOT NULL,
     status ENUM('Pending', 'Completed', 'Failed') DEFAULT 'Pending',
 	createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE
