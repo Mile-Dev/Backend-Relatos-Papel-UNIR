@@ -7,6 +7,8 @@ import ms.books.payments.data.PaymentRepository;
 import ms.books.payments.data.OrderRepository;
 import ms.books.payments.data.model.Orders;
 import ms.books.payments.data.model.Payments;
+import ms.books.payments.data.utils.OrderStatus;
+import ms.books.payments.data.utils.PaymentStatus;
 import ms.books.payments.exceptions.OrderNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,7 @@ public class PaymentsServices implements IPaymentServices {
                 .orderId(order)
                 .amount(request.getAmount())
                 .paymentMethodUsers(request.getPaymentMethodUsers())
+                .paymentStatus(PaymentStatus.Pending)
                 .build();
 
         return paymentRepository.save(payment);

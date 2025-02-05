@@ -37,14 +37,22 @@ public class OrderController {
             description = "No se ha encontrado el usuario con el identificador indicado.")
 
     public ResponseEntity<Orders> getOrdered(@PathVariable int id) {
-
-        log.info("Request received for user {}", id);
-        Orders order = servicesOrder.getOrder(id);
-        if (order != null) {
-            return ResponseEntity.ok(order);
-        } else {
-            return ResponseEntity.notFound().build();
+        try{
+            log.info("Request received for user {}", id);
+            Orders order = servicesOrder.getOrder(id);
+            if (order != null) {
+                return ResponseEntity.ok(order);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }catch(NumberFormatException e){
+            log.error("Formato de order inválido: {}", id, e);
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+            log.error("Error al eliminar el libro: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
         }
+
     }
 
     @GetMapping("/orders")
@@ -57,13 +65,22 @@ public class OrderController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Users.class)))
 
     public ResponseEntity<List<Orders>> getOrders() {
-
+       try{
+        log.info("Request received for order");
         List<Orders> orders = servicesOrder.getOrdered();
         if (orders != null) {
             return ResponseEntity.ok(orders);
         } else {
+            log.error("Failled request for order");
             return ResponseEntity.notFound().build();
         }
+       }catch(NumberFormatException e){
+           log.error("Formato de order inválido:", e);
+           return ResponseEntity.badRequest().build();
+       }catch (Exception e) {
+           log.error("Error al obtener el libro: {}", e.getMessage(), e);
+           return ResponseEntity.internalServerError().build();
+       }
     }
 
     @PostMapping("/orders")
@@ -87,15 +104,23 @@ public class OrderController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado la orden  con el identificador indicado.")
 
-    public ResponseEntity<Orders> addUsers(@RequestBody CreateOrderedRequest request) {
+    public ResponseEntity<Orders> addOrdered(@RequestBody CreateOrderedRequest request) {
+       try {
+           log.info("Recived request for addOrdered");
+           Orders createdOrder = servicesOrder.createOrdered(request);
 
-        Orders createdOrder = servicesOrder.createOrdered(request);
-
-        if (createdOrder != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+           if (createdOrder != null) {
+               return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+           } else {
+               return ResponseEntity.badRequest().build();
+           }
+       }catch(NumberFormatException e){
+           log.error("Formato de order inválido:", e);
+           return ResponseEntity.badRequest().build();
+       }catch (Exception e) {
+           log.error("Error al agregar el order: {}", e.getMessage(), e);
+           return ResponseEntity.internalServerError().build();
+       }
     }
 
 
@@ -117,13 +142,19 @@ public class OrderController {
             description = "No es posible a actualizar el registro.")
 
     public ResponseEntity<Boolean> pathOrderCompleted(@PathVariable int id) {
-
+        try{
         boolean result = servicesOrder.updateOrderedCompleted(id);
-
         if (result) {
             return ResponseEntity.ok(true);
         } else {
             return ResponseEntity.badRequest().build();
+        }
+        }catch(NumberFormatException e){
+            log.error("Formato de Completed order:", e);
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+            log.error("Error al Completed el order: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -144,14 +175,19 @@ public class OrderController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No es posible a actualizar el registro.")
     public ResponseEntity<Boolean> pathOrderCancelled(@PathVariable int id) {
-
+        try{
         boolean result = servicesOrder.updateOrderedCompleted(id);
-
         if (result) {
             return ResponseEntity.ok(true);
         } else {
             return ResponseEntity.badRequest().build();
         }
+        }catch(NumberFormatException e){
+                log.error("Formato de cancelled order:", e);
+                return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+                log.error("Error al cancelled el order: {}", e.getMessage(), e);
+                return ResponseEntity.internalServerError().build();
+        }
     }
-
 }

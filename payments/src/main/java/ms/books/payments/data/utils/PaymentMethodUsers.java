@@ -1,5 +1,5 @@
 package ms.books.payments.data.utils;
 
-public enum PaymentMethodUsers {
-    CREDIT_CARD, PAYPAL, TRANSFER
+public enum PaymentMethod {
+    Credit_card, Paypal, Transfer
 }

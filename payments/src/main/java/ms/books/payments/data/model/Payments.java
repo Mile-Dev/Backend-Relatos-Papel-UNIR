@@ -38,7 +38,7 @@ public class Payments {
 
     @Enumerated(EnumType.STRING)
     @Column(name = Consts.STATUS, nullable = false)
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
+    private PaymentStatus paymentStatus = PaymentStatus.Pending;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = Consts.CREATE, updatable = false, nullable = false)
