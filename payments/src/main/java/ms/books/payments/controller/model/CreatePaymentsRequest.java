@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ms.books.payments.data.utils.PaymentMethod;
+import ms.books.payments.data.utils.PaymentMethodUsers;
 
 
 import java.math.BigDecimal;
@@ -24,7 +24,7 @@ public class CreatePaymentsRequest {
     private BigDecimal amount;
 
     @NotNull(message="paymentMethodUsers cannot be null")
-    private PaymentMethod paymentMethodUsers;
+    private PaymentMethodUsers paymentMethodUsers;
 
 
 

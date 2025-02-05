@@ -132,7 +132,7 @@ public class OrderController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos de la orden de pedido a modificar.",
                     required = true,
-                    content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = String.class))))
+                    content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = Orders.class))))
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
@@ -166,7 +166,7 @@ public class OrderController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos de la orden de pedido a modificar.",
                     required = true,
-                    content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = String.class))))
+                    content = @Content(mediaType = "application/merge-patch+json", schema = @Schema(implementation = Orders.class))))
     @ApiResponse(
             responseCode = "200",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))

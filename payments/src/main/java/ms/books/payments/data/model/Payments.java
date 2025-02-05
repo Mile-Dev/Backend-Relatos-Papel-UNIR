@@ -1,9 +1,10 @@
 package ms.books.payments.data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import ms.books.payments.data.utils.Consts;
-import ms.books.payments.data.utils.PaymentMethod;
+import ms.books.payments.data.utils.PaymentMethodUsers;
 import ms.books.payments.data.utils.PaymentStatus;
 
 import java.math.BigDecimal;
@@ -32,13 +33,19 @@ public class Payments {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = Consts.PAYMENTMETHOD, nullable = false)
-    private PaymentMethod paymentMethodUsers;
+    @Column(name = Consts.PAYMENTMETHODUSERS, nullable = false)
+    private PaymentMethodUsers paymentMethodUsers;
 
     @Enumerated(EnumType.STRING)
     @Column(name = Consts.STATUS, nullable = false)
     private PaymentStatus paymentStatus = PaymentStatus.Pending;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = Consts.CREATE, updatable = false, nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt= LocalDateTime.now();
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

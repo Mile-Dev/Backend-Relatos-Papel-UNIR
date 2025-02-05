@@ -26,6 +26,6 @@ public class Consts {
 
     public static final String AMOUNT = "amount";
 
-    public static final String PAYMENTMETHOD = "paymentMethod";
+    public static final String PAYMENTMETHODUSERS = "paymentMethodUsers";
 
 }
