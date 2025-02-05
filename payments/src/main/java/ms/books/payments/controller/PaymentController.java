@@ -2,31 +2,22 @@ package ms.books.payments.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ms.books.payments.controller.model.CreateOrderedRequest;
 import ms.books.payments.controller.model.CreatePaymentsRequest;
 
 import ms.books.payments.data.model.Payments;
 import ms.books.payments.data.model.Orders;
-import ms.books.payments.data.model.Users;
 import ms.books.payments.services.PaymentsServices;
 import ms.books.payments.services.OrderServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
-import java.util.Collections;
-import java.util.Map;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
