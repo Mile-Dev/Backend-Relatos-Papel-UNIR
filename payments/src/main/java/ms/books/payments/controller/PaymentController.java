@@ -69,7 +69,7 @@ public class PaymentController {
             summary = "Se devuelve un pedido de acuerdo al id de la orden especificado.")
     @ApiResponse(
             responseCode = "200",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payments.class)))
     @ApiResponse(
             responseCode = "404",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
@@ -96,7 +96,7 @@ public class PaymentController {
             summary = "Se devuelve una lista de todos las pagos almacenados en la base de datos.")
     @ApiResponse(
             responseCode = "200",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Users.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payments.class)))
     public ResponseEntity<List<Payments>> getAllPayments(){
 
 
@@ -118,7 +118,7 @@ public class PaymentController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos del pago a realizar.",
                     required = true,
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateOrderedRequest.class))))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatePaymentsRequest.class))))
     @ApiResponse(
             responseCode = "201",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
