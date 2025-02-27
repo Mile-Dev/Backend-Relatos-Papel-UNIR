@@ -73,8 +73,6 @@ public class BookElasticRepository {
             querySpec.must(QueryBuilders.matchAllQuery());
         }
 
-        querySpec.must(QueryBuilders.termQuery("visible", true));
-
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder().withQuery(querySpec);
 
         if (aggregate) {
