@@ -45,3 +45,13 @@ springdoc:
     urls:
       - name: ms-books API
         url: /v3/api-docs
+
+##Elasticsearch config
+elasticsearch:
+  host: ${ELASTICSEARCH_HOST:unir-relatospapel-624477370.us-east-1.bonsaisearch.net}
+  credentials:
+    user: ${ELASTICSEARCH_USER:c5nmq5g7o2}
+    password: ${ELASTICSEARCH_PWD:5ir5zjqmui}
+logging:
+  level:
+    tracer: TRACE

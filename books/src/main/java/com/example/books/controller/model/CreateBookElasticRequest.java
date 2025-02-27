@@ -6,20 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateBookRequest {
+public class CreateBookElasticRequest {
     private String title;
     private String author;
     private String genre;
     private String publisher;
-    private String publicationYear;
-    private String isbn;
+    private List<String> categories;
     private Double price;
-    private Integer stock;
-    private Integer rating;
-    private Integer status;
+    private String language;
+    private Integer stockQuantity;
+    private String description;
 }
