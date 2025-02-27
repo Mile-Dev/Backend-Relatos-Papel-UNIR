@@ -48,7 +48,7 @@ public class Book {
     private Integer rating;
 
     @Column(name = "status", nullable = false)
-    private Integer status = 1; // 🔹 Asigna 1 por defecto si no se proporciona
+    private Integer status = 1;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

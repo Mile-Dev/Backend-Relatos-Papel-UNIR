@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +20,8 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
     private final BookElasticRepository repository;
 
     @Override
-    public BooksQueryResponse BookSearch(String title, String author, String genre, String publisher, String language, String description, Boolean aggregate) {
-        return repository.BookSearch(title, author, genre, publisher, language, description, aggregate);
+    public BooksQueryResponse BookSearch(String title, String author, String category, String subcategory, String description, Boolean aggregate) {
+        return repository.bookSearch(title, author, category, subcategory, description, aggregate);
     }
 
     @Override
@@ -38,19 +41,100 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
 
     @Override
     public BookElasticSearch createBook(CreateBookElasticRequest request) {
-
-        if (request != null && StringUtils.hasLength(request.getTitle().trim())
+        if (request != null
+                && StringUtils.hasLength(request.getTitle().trim())
                 && StringUtils.hasLength(request.getDescription().trim())
-                && StringUtils.hasLength(request.getAuthor().trim()) && request.getPrice() != null) {
+                && StringUtils.hasLength(request.getAuthor().trim())
+                && request.getPrice() != null) {
 
-            BookElasticSearch bookElasticSearch = BookElasticSearch.builder().title(request.getTitle()).description(request.getDescription())
-                    .author(request.getAuthor()).genre(request.getGenre()).categories(request.getCategories())
-                    .price(request.getPrice()).publisher(request.getPublisher()).language(request.getLanguage())
-                    .stockQuantity(request.getStockQuantity()).build();
+            List<com.example.books.data.model.BookElasticSearch.Review> reviews = null;
+            if (request.getReviews() != null) {
+                reviews = request.getReviews().stream()
+                        .map(r -> new com.example.books.data.model.BookElasticSearch.Review(
+                                r.getComment(),
+                                r.getRating() == null ? null : r.getRating().byteValue(), // conversión explícita
+                                r.getLikes(),
+                                r.getDislikes()))
+                        .collect(Collectors.toList());
+            }
+
+            BookElasticSearch bookElasticSearch = BookElasticSearch.builder()
+                    .id(request.getId())
+                    .title(request.getTitle())
+                    .description(request.getDescription())
+                    .author(request.getAuthor())
+                    .category(request.getCategory())
+                    .subcategory(request.getSubcategory())
+                    .price(request.getPrice())
+                    .image(request.getImage())
+                    .discount(request.getDiscount())
+                    .reviews(reviews)  // Ahora la lista tiene el tipo correcto
+                    .build();
 
             return repository.save(bookElasticSearch);
-        }else {
+        } else {
             return null;
         }
     }
+
+    @Override
+    public BookElasticSearch updateBookReviews(String id, List<com.example.books.controller.model.Review> updatedReviews) {
+
+        // 1. Buscar el libro en el repositorio
+        BookElasticSearch existingBook = repository.findById(id).orElse(null);
+        if (existingBook == null) {
+            return null; // Si no existe el libro, retornar null
+        }
+
+        // 2. Obtener lista de reseñas actuales y asegurar que sea mutable
+        List<BookElasticSearch.Review> existingReviews = existingBook.getReviews();
+        if (existingReviews == null) {
+            existingReviews = new ArrayList<>();
+        } else {
+            existingReviews = new ArrayList<>(existingReviews); // Copia para modificar
+        }
+
+        // 3. Iterar sobre las reseñas enviadas en el request
+        if (updatedReviews != null) {
+            for (com.example.books.controller.model.Review r : updatedReviews) {
+
+                // Convertir la reseña entrante al formato de BookElasticSearch
+                BookElasticSearch.Review converted = new BookElasticSearch.Review(
+                        r.getComment(),
+                        (r.getRating() == null) ? null : r.getRating().byteValue(),
+                        r.getLikes(),
+                        r.getDislikes()
+                );
+
+                // 3a. Buscar si ya existe una reseña con el mismo comentario
+                Optional<BookElasticSearch.Review> existing = existingReviews.stream()
+                        .filter(er -> er.getComment().equalsIgnoreCase(r.getComment())) // Ignorar mayúsculas
+                        .findFirst();
+
+                if (existing.isPresent()) {
+                    // 3b. Si ya existe, actualizar la reseña
+                    BookElasticSearch.Review existingReview = existing.get();
+                    existingReview.setRating(converted.getRating());
+                    existingReview.setLikes(converted.getLikes());
+                    existingReview.setDislikes(converted.getDislikes());
+                } else {
+                    // 3c. Si no existe, agregar la nueva reseña
+                    existingReviews.add(converted);
+                }
+            }
+        }
+
+        // 🔹 FORZAR LA ACTUALIZACIÓN DE LA LISTA EN EL LIBRO
+        existingBook.setReviews(new ArrayList<>(existingReviews)); // Evitar problemas de referencia
+
+        // 4. Guardar el libro con la lista actualizada
+        return repository.save(existingBook);
+    }
+
+
+
+
+
 }
+
+

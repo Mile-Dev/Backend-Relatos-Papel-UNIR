@@ -4,9 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.List;
-
 
 @Document(indexName = "books")
 @Data
@@ -16,39 +14,57 @@ import java.util.List;
 public class BookElasticSearch {
 
     @Id
-    @Field(type = FieldType.Keyword)
     private String id;
 
     @Field(type = FieldType.Text, analyzer = "standard")
     private String title;
 
+    @Field(type = FieldType.Keyword)
+    private String titleKeyword;
+
     @Field(type = FieldType.Text, analyzer = "standard")
     private String author;
 
     @Field(type = FieldType.Keyword)
-    private String genre;
+    private String authorKeyword;
 
     @Field(type = FieldType.Keyword)
-    private List<String> categories;
+    private String image;
 
     @Field(type = FieldType.Float)
     private Double price;
 
-    @Field(type = FieldType.Text, analyzer = "standard")
-    private String publisher;
+    @Field(type = FieldType.Integer)
+    private Integer discount;
 
     @Field(type = FieldType.Keyword)
-    private String language;
+    private String category;
 
-    @Field(type = FieldType.Integer)
-    private int stockQuantity;
+    @Field(type = FieldType.Keyword)
+    private String subcategory;
 
     @Field(type = FieldType.Text, analyzer = "standard")
     private String description;
 
-    @Field(type = FieldType.Text, analyzer = "standard", copyTo = "allFields")
-    private String searchField;
+    @Field(type = FieldType.Nested)
+    private List<Review> reviews;
 
-    @Field(type = FieldType.Text, analyzer = "standard")
-    private String allFields;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Review {
+
+        @Field(type = FieldType.Text, analyzer = "standard")
+        private String comment;
+
+        @Field(type = FieldType.Byte)
+        private Byte rating;
+
+        @Field(type = FieldType.Integer)
+        private Integer likes;
+
+        @Field(type = FieldType.Integer)
+        private Integer dislikes;
+    }
 }

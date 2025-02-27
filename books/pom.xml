@@ -1,10 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.2</version> <!-- Cambia a una versión compatible -->
+        <version>3.3.2</version>
         <relativePath/>
     </parent>
 
@@ -16,8 +19,10 @@
 
     <properties>
         <java.version>21</java.version>
+        <!-- Ajusta si usas otra versión de Spring Cloud -->
         <spring-cloud.version>2024.0.0</spring-cloud.version>
-        <elasticsearch.custom.version>7.10.2</elasticsearch.custom.version><!--IMPORTANTE: Usamos esta version porque es la misma que hay en Bonsai.io-->
+        <!-- Versión de Elasticsearch que usas en Bonsai.io -->
+        <elasticsearch.custom.version>7.10.2</elasticsearch.custom.version>
     </properties>
 
     <dependencies>
@@ -38,11 +43,14 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+
+        <!-- Actuator para métricas y health checks -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- Spring Boot DevTools -->
+
+        <!-- Spring Boot DevTools (opcional) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -58,16 +66,19 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- SpringDoc OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.2.0</version> <!-- Usa la versión más reciente -->
+            <version>2.2.0</version>
         </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.30</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Boot Starter Test -->
@@ -76,23 +87,33 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--Dependencias de Elasticsearch-->
+
+        <!-- Spring Data Elasticsearch 4.2.x (compatible con ES 7.10.x) -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
-            <version>4.2.3</version><!--$NO-MVN-MAN-VER$-->
+            <version>4.2.3</version>
         </dependency>
+
+        <!-- Elasticsearch libs (para 7.10.2) -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>${elasticsearch.custom.version}</version><!--$NO-MVN-MAN-VER$-->
+            <version>${elasticsearch.custom.version}</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>${elasticsearch.custom.version}</version><!--$NO-MVN-MAN-VER$-->
+            <version>${elasticsearch.custom.version}</version>
         </dependency>
 
+        <!-- OJO: Quitamos la dependencia directa a slf4j-api:1.7.36 -->
+        <!-- Spring Boot ya trae la versión de SLF4J adecuada (2.x) con Logback -->
+        <!-- <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+        </dependency> -->
     </dependencies>
 
     <dependencyManagement>
