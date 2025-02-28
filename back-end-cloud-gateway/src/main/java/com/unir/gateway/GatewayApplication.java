@@ -13,5 +13,4 @@ public class GatewayApplication {
 		System.setProperty("spring.profiles.active", profile != null ? profile : "default");
 		SpringApplication.run(GatewayApplication.class, args);
 	}
-
 }
