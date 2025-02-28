@@ -213,13 +213,13 @@ public class OrderController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado la orden  con el identificador indicado.")
 
-    public ResponseEntity<Orders> createOrdered(@RequestBody OrderDTO request) {
+    public ResponseEntity<OrderDTO> createOrdered(@RequestBody OrderDTO request) {
         try {
             log.info("Recived request for addOrdered");
-            Orders createdOrder = servicesOrder.createOrdered(request);
+            Boolean createdOrder = servicesOrder.CreateOrder(request);
 
             if (createdOrder != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+                return ResponseEntity.status(HttpStatus.CREATED).body(request);
             } else {
                 return ResponseEntity.badRequest().build();
             }
