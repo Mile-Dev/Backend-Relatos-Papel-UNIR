@@ -1,6 +1,7 @@
 package ms.books.payments.services;
 
 import ms.books.payments.controller.model.CreateOrderedRequest;
+import ms.books.payments.controller.model.OrderDTO;
 import ms.books.payments.data.model.Orders;
 import ms.books.payments.data.utils.OrderStatus;
 
@@ -13,6 +14,8 @@ public interface IOrderServices {
     List<Orders> getOrdered();
 
     Orders createOrdered(CreateOrderedRequest request);
+
+    String CreateOrder(OrderDTO orderDTO);
 
     Boolean updateOrderedCompleted(int orderId);
 

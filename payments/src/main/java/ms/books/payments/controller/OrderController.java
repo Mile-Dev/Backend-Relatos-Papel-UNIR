@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ms.books.payments.controller.model.CreateOrderedRequest;
+import ms.books.payments.controller.model.OrderDTO;
 import ms.books.payments.data.model.Orders;
 import ms.books.payments.data.model.Users;
 import ms.books.payments.services.OrderServices;
@@ -188,6 +189,46 @@ public class OrderController {
         }catch (Exception e) {
                 log.error("Error al cancelled el order: {}", e.getMessage(), e);
                 return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/orders")
+    @Operation(
+            operationId = "Insertar un nueva order",
+            description = "Operacion de escritura",
+            summary = "Se crea una orden de pedido  a partir de sus datos.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Datos del orden de pedido a crear.",
+                    required = true,
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateOrderedRequest.class))))
+    @ApiResponse(
+            responseCode = "201",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
+    @ApiResponse(
+            responseCode = "400",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
+            description = "Datos incorrectos introducidos.")
+    @ApiResponse(
+            responseCode = "404",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
+            description = "No se ha encontrado la orden  con el identificador indicado.")
+
+    public ResponseEntity<Orders> createOrdered(@RequestBody OrderDTO request) {
+        try {
+            log.info("Recived request for addOrdered");
+            Orders createdOrder = servicesOrder.createOrdered(request);
+
+            if (createdOrder != null) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        }catch(NumberFormatException e){
+            log.error("Formato de order inválido:", e);
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e) {
+            log.error("Error al agregar el order: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

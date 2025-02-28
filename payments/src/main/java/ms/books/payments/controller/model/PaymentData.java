@@ -2,15 +2,16 @@ package ms.books.payments.controller.model;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class UserDto {
+    public class PaymentData {
+    private String cardNumber;
+    private String expiration;
 
-    private String name;
-    private String email;
-    private String phone;
-}
+    };

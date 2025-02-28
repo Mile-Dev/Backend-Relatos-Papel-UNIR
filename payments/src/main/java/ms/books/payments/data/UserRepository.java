@@ -1,6 +1,7 @@
 package ms.books.payments.data;
 
 import lombok.RequiredArgsConstructor;
+import ms.books.payments.controller.model.PersonalData;
 import ms.books.payments.data.model.Users;
 import org.springframework.stereotype.Repository;
 
@@ -25,4 +26,5 @@ public class UserRepository  {
     }
 
     public Users findByEmail(String email) { return repositoryUser.findByEmail(email);}
+
 }

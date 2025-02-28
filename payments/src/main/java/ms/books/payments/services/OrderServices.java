@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ms.books.payments.controller.model.CreateOrderedRequest;
+import ms.books.payments.controller.model.OrderDTO;
 import ms.books.payments.data.OrderRepository;
 import ms.books.payments.data.UserRepository;
 import ms.books.payments.data.model.Orders;
@@ -59,6 +60,17 @@ public class OrderServices implements IOrderServices {
     }
 
     @Override
+    public String CreateOrder(OrderDTO orderDTO ) {
+        Users users = userRepository.save(
+                Users.builder()
+                .email(orderDTO.getPersonalData().getEmail())
+                .name(orderDTO.getPersonalData().getName())
+                .phone(orderDTO.getPersonalData().getPhone())
+                .build()
+        ); return "Order created successfully";
+    };
+
+    @Override
     public Boolean updateOrderedCompleted(int orderId) {
            Orders order = orderRepository.getOrderedById(orderId);
            if (order != null)
@@ -99,4 +111,4 @@ public class OrderServices implements IOrderServices {
             throw new OrderNotFoundException("Order with ID " + orderId + " not found");
         }
     }
-}
+    }
