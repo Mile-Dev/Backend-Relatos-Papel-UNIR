@@ -15,6 +15,8 @@ public interface IOrderServices {
 
     Orders createOrdered(CreateOrderedRequest request);
 
+    String CreateOrder(OrderDTO orderDTO);
+
     Boolean updateOrderedCompleted(int orderId);
 
     Boolean updateOrderedCancelled(int orderId);
