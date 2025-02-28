@@ -28,4 +28,14 @@ public class Consts {
 
     public static final String PAYMENTMETHODUSERS = "paymentMethodUsers";
 
+    public static final String IDBOOK = "IdBook";
+
+    public static final String TITLE = "title";
+
+
+    public static final String SUBTOTAL = "subtotal";
+
+    public static final String IDORDER = "IdOrder";
+
+
 }

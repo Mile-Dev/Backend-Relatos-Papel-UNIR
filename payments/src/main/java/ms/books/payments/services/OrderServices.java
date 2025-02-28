@@ -4,17 +4,22 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ms.books.payments.controller.model.CartItem;
 import ms.books.payments.controller.model.CreateOrderedRequest;
+import ms.books.payments.controller.model.OrderDTO;
+import ms.books.payments.data.OrderDetailBookRepository;
 import ms.books.payments.data.OrderRepository;
 import ms.books.payments.data.UserRepository;
 import ms.books.payments.data.model.Orders;
 import ms.books.payments.data.model.Users;
+import ms.books.payments.data.model.orderDetailBook;
 import ms.books.payments.data.utils.OrderStatus;
 import ms.books.payments.exceptions.OrderNotFoundException;
 import ms.books.payments.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -24,6 +29,8 @@ public class OrderServices implements IOrderServices {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final OrderDetailBookRepository OrderDetailBookRepository;
+
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -57,6 +64,8 @@ public class OrderServices implements IOrderServices {
 
         return savedOrder;
     }
+
+
 
     @Override
     public Boolean updateOrderedCompleted(int orderId) {
@@ -98,5 +107,52 @@ public class OrderServices implements IOrderServices {
         {
             throw new OrderNotFoundException("Order with ID " + orderId + " not found");
         }
+
+
     }
-}
+
+    @Override
+    public Boolean CreateOrder(OrderDTO orderDTO) {
+
+        try {
+            Users users = userRepository.save(
+                    Users.builder()
+                            .email(orderDTO.getPersonalData().getEmail())
+                            .name(orderDTO.getPersonalData().getName())
+                            .phone(orderDTO.getPersonalData().getPhone())
+                            .build()
+            );
+
+            Orders order = orderRepository.save(
+                    Orders.builder()
+                            .user(users)
+                            .totalAmount(new BigDecimal(orderDTO.getTotal()))
+                            .status(OrderStatus.Completed)
+                            .build()
+            );
+            for (CartItem cart : orderDTO.getCart()){
+
+                orderDetailBook orderDetail  = OrderDetailBookRepository.save(
+                        orderDetailBook.builder()
+                                .IdBook(cart.getId())
+                                .title(cart.getTitle())
+                                .quantity(cart.getQuantity())
+                                .price(cart.getPrice())
+                                .subtotal(cart.getSubtotal())
+                                .build()
+                );
+
+            }
+            return true;
+        }
+
+        catch (Exception e) {
+            return false;
+        }
+
+        }
+
+    }
+
+
+

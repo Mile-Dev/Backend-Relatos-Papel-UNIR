@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ms.books.payments.controller.model.CreateOrderedRequest;
+import ms.books.payments.controller.model.OrderDTO;
 import ms.books.payments.data.model.Orders;
 import ms.books.payments.data.model.Users;
 import ms.books.payments.services.OrderServices;
@@ -91,10 +92,10 @@ public class OrderController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Datos del orden de pedido a crear.",
                     required = true,
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateOrderedRequest.class))))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = OrderDTO.class))))
     @ApiResponse(
             responseCode = "201",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = OrderDTO.class)))
     @ApiResponse(
             responseCode = "400",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
@@ -104,13 +105,13 @@ public class OrderController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
             description = "No se ha encontrado la orden  con el identificador indicado.")
 
-    public ResponseEntity<Orders> addOrdered(@RequestBody CreateOrderedRequest request) {
+    public ResponseEntity<OrderDTO> addOrdered(@RequestBody OrderDTO request) {
        try {
            log.info("Recived request for addOrdered");
-           Orders createdOrder = servicesOrder.createOrdered(request);
+           Boolean createdOrder = servicesOrder.CreateOrder(request);
 
            if (createdOrder != null) {
-               return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+               return ResponseEntity.status(HttpStatus.CREATED).body(request);
            } else {
                return ResponseEntity.badRequest().build();
            }
