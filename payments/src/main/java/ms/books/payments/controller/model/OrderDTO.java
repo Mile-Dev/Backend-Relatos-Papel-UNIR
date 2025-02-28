@@ -13,7 +13,6 @@ import java.util.List;
 @ToString
     public class OrderDTO {
         private PersonalData personalData;
-        private PaymentData paymentData;
         private List<CartItem> cart;
         private String total;
 

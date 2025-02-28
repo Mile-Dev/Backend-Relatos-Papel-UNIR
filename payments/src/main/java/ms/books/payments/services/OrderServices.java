@@ -139,6 +139,7 @@ public class OrderServices implements IOrderServices {
                                 .quantity(cart.getQuantity())
                                 .price(cart.getPrice())
                                 .subtotal(cart.getSubtotal())
+                                .order(order)
                                 .build()
                 );
 
