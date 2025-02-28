@@ -192,26 +192,26 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/orders")
-    @Operation(
-            operationId = "Insertar un nueva order",
-            description = "Operacion de escritura",
-            summary = "Se crea una orden de pedido  a partir de sus datos.",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Datos del orden de pedido a crear.",
-                    required = true,
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateOrderedRequest.class))))
-    @ApiResponse(
-            responseCode = "201",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
-    @ApiResponse(
-            responseCode = "400",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
-            description = "Datos incorrectos introducidos.")
-    @ApiResponse(
-            responseCode = "404",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
-            description = "No se ha encontrado la orden  con el identificador indicado.")
+//    @PostMapping("/orders")
+//    @Operation(
+//            operationId = "Insertar un nueva order",
+//            description = "Operacion de escritura",
+//            summary = "Se crea una orden de pedido  a partir de sus datos.",
+//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+//                    description = "Datos del orden de pedido a crear.",
+//                    required = true,
+//                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreateOrderedRequest.class))))
+//    @ApiResponse(
+//            responseCode = "201",
+//            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Orders.class)))
+//    @ApiResponse(
+//            responseCode = "400",
+//            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
+//            description = "Datos incorrectos introducidos.")
+//    @ApiResponse(
+//            responseCode = "404",
+//            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class)),
+//            description = "No se ha encontrado la orden  con el identificador indicado.")
 
     public ResponseEntity<OrderDTO> createOrdered(@RequestBody OrderDTO request) {
         try {
