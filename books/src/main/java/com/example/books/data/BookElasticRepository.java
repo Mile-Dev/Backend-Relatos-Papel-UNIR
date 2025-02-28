@@ -49,7 +49,6 @@ public class BookElasticRepository {
             String description,
             Boolean aggregate) {
 
-        // Construimos la query con las condiciones de búsqueda
         BoolQueryBuilder querySpec = QueryBuilders.boolQuery();
 
         if (StringUtils.isNotBlank(title)) {
@@ -61,12 +60,10 @@ public class BookElasticRepository {
         }
 
         if (StringUtils.isNotBlank(category)) {
-            // category está mapeado como Keyword, así que usamos termQuery
             querySpec.must(QueryBuilders.termQuery("category", category));
         }
 
         if (StringUtils.isNotBlank(subcategory)) {
-            // subcategory también es Keyword
             querySpec.must(QueryBuilders.termQuery("subcategory", subcategory));
         }
 
@@ -74,22 +71,19 @@ public class BookElasticRepository {
             querySpec.must(QueryBuilders.matchQuery("description", description));
         }
 
-        // Si no hay ningún filtro, hacemos un matchAll
         if (!querySpec.hasClauses()) {
             querySpec.must(QueryBuilders.matchAllQuery());
         }
 
-        // Construcción de la query
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
                 .withQuery(querySpec);
 
-        // Ejemplo de agregación opcional (si 'aggregate == true'):
-        // se hace un Terms Agg sobre "category"
+
         if (Boolean.TRUE.equals(aggregate)) {
             nativeSearchQueryBuilder.addAggregation(
                     AggregationBuilders.terms("categoryAggregation").field("category").size(1000)
             );
-            // Se puede limitar resultados a 0 si solo quieres la agregación
+
             nativeSearchQueryBuilder.withMaxResults(0);
         }
 
@@ -97,13 +91,12 @@ public class BookElasticRepository {
         SearchHits<BookElasticSearch> searchHits =
                 elasticsearchOperations.search(query, BookElasticSearch.class);
 
-        // Convertimos los hits en una lista de BookElasticSearch
         List<BookElasticSearch> results = searchHits.getSearchHits()
                 .stream()
                 .map(SearchHit::getContent)
                 .toList();
 
-        // Retornamos en BooksQueryResponse (asegúrate de que tenga un constructor que acepte List<BookElasticSearch>)
+
         return new BooksQueryResponse(results);
     }
 }

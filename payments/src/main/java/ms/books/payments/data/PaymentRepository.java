@@ -12,9 +12,7 @@ public class PaymentRepository {
 
     private final PaymentJpaRepository repositoryPayment;
 
-    //Mostrar todos los pagos
     public List<Payments> getPayments() { return  repositoryPayment.findAll();}
-
 
 
     public Payments getPaymentById(int id) {return repositoryPayment.findById(id).orElse(null);}
