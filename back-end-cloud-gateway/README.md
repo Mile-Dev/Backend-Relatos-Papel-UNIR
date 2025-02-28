@@ -15,3 +15,24 @@ You can deploy the project on Railway using the following button:
 If you want to deploy this project within an entire Spring microservices ecosystem, you can use the following button:
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/f6CKpT?referralCode=jesus-unir)
+
+## Cómo utilizar este repositorio AMBIENTE DEV con DOCKER
+
+- Cómo hacer deploy del proyecto?
+
+1. Construir la imagen
+```
+
+docker build -t dguachamin/relatos-dev:8087 .
+docker push dguachamin/relatos-dev:8087
+
+```
+
+3. En el server debe estar instalado y configurado Docker
+4. Bajar la imagen el server a deployar
+
+```
+sudo docker pull dguachamin/relatos-dev:8087
+sudo docker run -d --network host --name relatos-8087 --restart always dguachamin/relatos-dev:8087
+sudo docker start relatos-8087
+```

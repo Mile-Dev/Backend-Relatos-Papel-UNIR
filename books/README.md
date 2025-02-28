@@ -25,8 +25,8 @@ If you want to deploy this project within an entire Spring microservices ecosyst
 1. Construir la imagen
 ```
 
-docker build -t dguachamin/relatos-eureka:8088 .
-docker push dguachamin/relatos-eureka:8088
+docker build -t dguachamin/relatos-ms-books:8089 .
+docker push dguachamin/relatos-ms-books:8089
 
 ```
 
@@ -34,7 +34,7 @@ docker push dguachamin/relatos-eureka:8088
 4. Bajar la imagen el server a deployar
 
 ```
-sudo docker pull dguachamin/relatos-eureka:8088
-sudo docker run -d --network host --name relatos-eureka-8088 --restart always dguachamin/relatos-eureka:8088
-sudo docker start relatos-eureka-8088
+sudo docker pull dguachamin/relatos-ms-books:8089
+sudo docker run -d --network host --name relatos-ms-books-8089 --restart always dguachamin/relatos-ms-books:8089
+sudo docker start relatos-ms-books:8089
 ```
