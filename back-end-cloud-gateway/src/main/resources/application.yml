@@ -50,7 +50,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: ${ALLOWED_ORIGINS:*}
+            allowedOriginPatterns: "*"  # ✅ Cambiado de allowedOrigins a allowedOriginPatterns
             allowedHeaders: "*"
             allowedMethods:
               - GET
@@ -58,6 +58,7 @@ spring:
               - PUT
               - DELETE
               - PATCH
+            allowCredentials: true
 
 management:
   endpoint:
@@ -68,6 +69,7 @@ management:
       exposure:
         include:
           - '*'
+
 springdoc:
   swagger-ui:
     enabled: true

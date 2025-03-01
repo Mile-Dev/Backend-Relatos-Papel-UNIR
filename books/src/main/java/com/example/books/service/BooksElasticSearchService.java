@@ -52,7 +52,7 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
                 reviews = request.getReviews().stream()
                         .map(r -> new com.example.books.data.model.BookElasticSearch.Review(
                                 r.getComment(),
-                                r.getRating() == null ? null : r.getRating().byteValue(), // conversión explícita
+                                r.getRating() == null ? null : r.getRating().byteValue(),
                                 r.getLikes(),
                                 r.getDislikes()))
                         .collect(Collectors.toList());
@@ -68,7 +68,7 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
                     .price(request.getPrice())
                     .image(request.getImage())
                     .discount(request.getDiscount())
-                    .reviews(reviews)  // Ahora la lista tiene el tipo correcto
+                    .reviews(reviews)
                     .build();
 
             return repository.save(bookElasticSearch);
@@ -80,25 +80,23 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
     @Override
     public BookElasticSearch updateBookReviews(String id, List<com.example.books.controller.model.Review> updatedReviews) {
 
-        // 1. Buscar el libro en el repositorio
         BookElasticSearch existingBook = repository.findById(id).orElse(null);
         if (existingBook == null) {
-            return null; // Si no existe el libro, retornar null
+            return null;
         }
 
-        // 2. Obtener lista de reseñas actuales y asegurar que sea mutable
+
         List<BookElasticSearch.Review> existingReviews = existingBook.getReviews();
         if (existingReviews == null) {
             existingReviews = new ArrayList<>();
         } else {
-            existingReviews = new ArrayList<>(existingReviews); // Copia para modificar
+            existingReviews = new ArrayList<>(existingReviews);
         }
 
-        // 3. Iterar sobre las reseñas enviadas en el request
         if (updatedReviews != null) {
             for (com.example.books.controller.model.Review r : updatedReviews) {
 
-                // Convertir la reseña entrante al formato de BookElasticSearch
+
                 BookElasticSearch.Review converted = new BookElasticSearch.Review(
                         r.getComment(),
                         (r.getRating() == null) ? null : r.getRating().byteValue(),
@@ -106,28 +104,24 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
                         r.getDislikes()
                 );
 
-                // 3a. Buscar si ya existe una reseña con el mismo comentario
+
                 Optional<BookElasticSearch.Review> existing = existingReviews.stream()
-                        .filter(er -> er.getComment().equalsIgnoreCase(r.getComment())) // Ignorar mayúsculas
+                        .filter(er -> er.getComment().equalsIgnoreCase(r.getComment()))
                         .findFirst();
 
                 if (existing.isPresent()) {
-                    // 3b. Si ya existe, actualizar la reseña
                     BookElasticSearch.Review existingReview = existing.get();
                     existingReview.setRating(converted.getRating());
                     existingReview.setLikes(converted.getLikes());
                     existingReview.setDislikes(converted.getDislikes());
                 } else {
-                    // 3c. Si no existe, agregar la nueva reseña
                     existingReviews.add(converted);
                 }
             }
         }
 
-        // 🔹 FORZAR LA ACTUALIZACIÓN DE LA LISTA EN EL LIBRO
-        existingBook.setReviews(new ArrayList<>(existingReviews)); // Evitar problemas de referencia
+        existingBook.setReviews(new ArrayList<>(existingReviews));
 
-        // 4. Guardar el libro con la lista actualizada
         return repository.save(existingBook);
     }
 

@@ -9,7 +9,6 @@ class BooksApplicationTests {
 
 	@Test
 	@Disabled
-		// Deshabilita este test temporalmente
 	void contextLoads() {
 	}
 

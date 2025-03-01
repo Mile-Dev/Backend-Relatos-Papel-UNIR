@@ -28,7 +28,6 @@ public class PaymentsServices implements IPaymentServices {
 
     }
 
-    //Revisar metodo: Devolver payments por id
     @Override
     public Payments getPaymentsById(Integer id) {
 

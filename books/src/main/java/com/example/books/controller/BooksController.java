@@ -3,15 +3,15 @@ package com.example.books.controller;
 import com.example.books.controller.model.BooksQueryResponse;
 import com.example.books.controller.model.CreateBookElasticRequest;
 import com.example.books.data.model.BookElasticSearch;
-import com.example.books.controller.model.Review;  // <-- Importar aquí
+import com.example.books.controller.model.Review;
 import com.example.books.service.BooksElasticSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException; // si lo usas
-import java.util.List; // <-- Importar también
+import org.springframework.web.server.ResponseStatusException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -68,7 +68,6 @@ public class BooksController {
      */
     @PostMapping
     public ResponseEntity<BookElasticSearch> createBook(@RequestBody CreateBookElasticRequest request) {
-        // Validaciones antes de enviar la petición
         if (request.getTitle() == null || request.getTitle().trim().isEmpty() ||
                 request.getAuthor() == null || request.getAuthor().trim().isEmpty() ||
                 request.getCategory() == null || request.getCategory().trim().isEmpty() ||
@@ -94,7 +93,7 @@ public class BooksController {
     ) {
         BookElasticSearch savedBook = service.updateBookReviews(id, updatedReviews);
         if (savedBook == null) {
-            // Libro no encontrado
+
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(savedBook);
