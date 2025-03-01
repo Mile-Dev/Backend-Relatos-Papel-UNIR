@@ -28,14 +28,12 @@ public class BooksController {
     @GetMapping
     public ResponseEntity<BooksQueryResponse> getBooks(
             @RequestHeader Map<String, String> headers,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String subcategory,
             @RequestParam(required = false, defaultValue = "false") Boolean aggregate) {
 
-        BooksQueryResponse books = service.BookSearch(title, author, category, subcategory, description, aggregate);
+        BooksQueryResponse books = service.BookSearch(search, category, subcategory, aggregate);
         return ResponseEntity.ok(books);
     }
 

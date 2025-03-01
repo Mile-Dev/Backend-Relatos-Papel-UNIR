@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IBooksElasticSearchService {
 
-    BooksQueryResponse BookSearch(String title, String author, String category, String subcategory, String description, Boolean aggregate);
+    BooksQueryResponse BookSearch(String search, String category, String subcategory, Boolean aggregate);
 
     BookElasticSearch getBook(String bookId);
 

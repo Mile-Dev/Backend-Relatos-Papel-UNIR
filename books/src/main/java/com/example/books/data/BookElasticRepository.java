@@ -42,23 +42,22 @@ public class BookElasticRepository {
 
     @SneakyThrows
     public BooksQueryResponse bookSearch(
-            String title,
-            String author,
+            String search,
             String category,
             String subcategory,
-            String description,
             Boolean aggregate) {
 
-        // Construimos la query con las condiciones de búsqueda
         BoolQueryBuilder querySpec = QueryBuilders.boolQuery();
 
-        if (StringUtils.isNotBlank(title)) {
-            querySpec.must(QueryBuilders.matchQuery("title", title));
+        if (StringUtils.isNotBlank(search)) {
+            BoolQueryBuilder searchFields = QueryBuilders.boolQuery()
+                    .should(QueryBuilders.matchQuery("title", search))
+                    .should(QueryBuilders.matchQuery("author", search))
+                    .should(QueryBuilders.matchQuery("description", search));
+
+            querySpec.must(searchFields);
         }
 
-        if (StringUtils.isNotBlank(author)) {
-            querySpec.must(QueryBuilders.matchQuery("author", author));
-        }
 
         if (StringUtils.isNotBlank(category)) {
             // category está mapeado como Keyword, así que usamos termQuery
@@ -68,10 +67,6 @@ public class BookElasticRepository {
         if (StringUtils.isNotBlank(subcategory)) {
             // subcategory también es Keyword
             querySpec.must(QueryBuilders.termQuery("subcategory", subcategory));
-        }
-
-        if (StringUtils.isNotBlank(description)) {
-            querySpec.must(QueryBuilders.matchQuery("description", description));
         }
 
         // Si no hay ningún filtro, hacemos un matchAll

@@ -20,8 +20,8 @@ public class BooksElasticSearchService implements IBooksElasticSearchService {
     private final BookElasticRepository repository;
 
     @Override
-    public BooksQueryResponse BookSearch(String title, String author, String category, String subcategory, String description, Boolean aggregate) {
-        return repository.bookSearch(title, author, category, subcategory, description, aggregate);
+    public BooksQueryResponse BookSearch(String search,  String category, String subcategory, Boolean aggregate) {
+        return repository.bookSearch(search, category, subcategory, aggregate);
     }
 
     @Override
